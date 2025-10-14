@@ -117,4 +117,44 @@ public class AccountingLedgerApp {
         // Shows a message that the deposit was successful!
         System.out.println("✓ Deposit added successfully!\n");
     }
+
+    // This method handles making a payment (money going out unlike addDesposit
+    public static void makePayment(Scanner scanner) {
+        System.out.println("\n═══ MAKE PAYMENT ═══");
+
+        // Get the date of the payment
+        System.out.print("Enter date (yyyy-MM-dd): ");
+        String dateInput = scanner.nextLine();
+        LocalDate date = LocalDate.parse(dateInput);
+
+        // Get the time of the payment
+        System.out.print("Enter time (HH:mm:ss): ");
+        String timeInput = scanner.nextLine();
+        LocalTime time = LocalTime.parse(timeInput);
+
+        // Get what this payment was for
+        System.out.print("Enter description: ");
+        String description = scanner.nextLine();
+
+        // Get who received the payment
+        System.out.print("Enter vendor: ");
+        String vendor = scanner.nextLine();
+
+        // Get the amount paid
+        System.out.print("Enter amount: ");
+        double amount = scanner.nextDouble();
+        scanner.nextLine();
+
+        // Made the amount negative because payments are money going out
+        // Math.abs() makes sure it's positive first, then I added the minus sign
+        amount = -Math.abs(amount);
+
+        // this Creates the transaction object again and adds it to our list
+        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        transactions.add(transaction);
+        // Save it to the file
+        saveTransaction(transaction);
+
+        System.out.println("✓ Payment recorded successfully!\n");
+    }
 }
