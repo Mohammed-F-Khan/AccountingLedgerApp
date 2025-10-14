@@ -25,5 +25,44 @@ public class Transaction {
         this.amount = amount;
     }
 
-
+    // getters - returns the transactions date
+    public LocalDate getDate() {
+        return date;
+    }
+    // setters - now it lets me change the transaction date.
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+    // returns the transaction time
+    public LocalTime getTime() {
+        return time;
+    }
+    // lets us change the transaction time
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+    // returns the description
+    public String getDescription() {
+        return description;
+    }
+    // lets us change the description
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    //returns the vendor name
+    public String getVendor() {
+        return vendor;
+    }
+    // lets us change the vendor name
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
+    }
+    // returns the transaction amount
+    public double getAmount() {
+        return amount;
+    }
+    // lets us change the transaction amount
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
 }
