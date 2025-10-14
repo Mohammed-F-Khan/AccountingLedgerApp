@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -74,5 +76,45 @@ public class AccountingLedgerApp {
                     System.out.println("invalid choice. Please try again. \n");
             }
         }
+    }
+
+    // addDeposit method - this method handles adding a new deposit (money coming inn)
+    // scanner so it can read user input
+    public static void addDeposit(Scanner scanner) {
+        System.out.println("\n═══ ADD DEPOSIT ═══");
+
+        // ask user for the date
+        System.out.print("Enter date (yyyy-MM-dd): ");
+        String dateInput = scanner.nextLine();
+        // LocalDate.parse -  turns text into a date that java can understand, converts the text into an actual date
+        LocalDate date = LocalDate.parse(dateInput);
+
+        // ask user for time
+        System.out.print("enter time (HH:mm:ss): ");
+        String timeInput = scanner.nextLine();
+        // LocalTime.parse converts the string into a LocalTime object
+        LocalTime time = LocalTime.parse(timeInput);
+
+        // Get the description of what this deposit is for.
+        System.out.print("Enter description:");
+        String description = scanner.nextLine();
+
+        // get the vendor name who gave the money
+        System.out.print("Enter vendor: ");
+        String vendor = scanner.nextLine();
+
+        System.out.print("Enter amount: ");
+        double amount = scanner.nextDouble();
+
+        scanner.nextLine();
+
+        // This creates a new transaction object with all the information that has been collected
+        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+        // this adds the transaction to the ArrayList
+        transactions.add(transaction);
+
+
+        // Shows a message that the deposit was successful!
+        System.out.println("✓ Deposit added successfully!\n");
     }
 }
