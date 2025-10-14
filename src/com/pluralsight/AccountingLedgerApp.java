@@ -1,5 +1,9 @@
 package com.pluralsight;
 
+import javax.imageio.IIOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -113,6 +117,8 @@ public class AccountingLedgerApp {
         // this adds the transaction to the ArrayList
         transactions.add(transaction);
 
+        // save this transaction to the CSV file so it's stored permanently
+        saveTransaction(transaction);
 
         // Shows a message that the deposit was successful!
         System.out.println("✓ Deposit added successfully!\n");
@@ -157,4 +163,33 @@ public class AccountingLedgerApp {
 
         System.out.println("✓ Payment recorded successfully!\n");
     }
+
+    // This method saves a single transaction to the CSV file
+    public static void saveTransaction(Transaction transaction) {
+        try {
+            // Filerwriter opens or creates the file
+            // true means it adds to the end instead of overwriting
+            FileWriter fileWriter = new FileWriter("transactions.csv", true);
+            // bufferedwriter makes writing more efficient
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            // String.format makes it into a formatted string with the data
+            // %s means string, %.2f means decimal with 2 decimal places.
+            String line = String.format("%s|%s|%s|%s|%.2f\n",
+                    transaction.getDate(),
+                    transaction.getTime(),
+                    transaction.getDescription(),
+                    transaction.getVendor(),
+                    transaction.getAmount());
+            // this writes the line to the file
+            bufferedWriter.write(line);
+            //closes the writer to save the changes
+            bufferedWriter.close();
+        } catch (IOException e) {
+            // this shows an error if something goes wrong
+            System.out.println("ERROR: Could not save transaction!");
+            e.printStackTrace(); // prints detailed error information
+        }
+    }
+    
 }
