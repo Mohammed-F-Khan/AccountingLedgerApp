@@ -263,8 +263,49 @@ public class AccountingLedgerApp {
                 }
             }
         }
-        
 
+        // this method display all transactions sorted by date (newest first)
+        public static void displayAllEntries() {
+            System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+            System.out.println("                                 ALL ENTRIES");
+            System.out.println("  ═══════════════════════════════════════════════════════════════════════════════");
+
+            //print f formats the output in colums
+            // %-12 means left alligned string with 12 characters width and %10 means right aligned with 10 char width
+            System.out.printf("%-12s %-10s %-25s %-20s %10s\\n\", \"Date\", \"Time\", \"Description\", \"Vendor\", \"Amount");
+            System.out.println("-------------------------------------------------------------------------------");
+
+            // this creats a copy of the transaction list so the orignal isn't lost
+            ArrayList<Transaction> sortedTransactions = new ArrayList<Transaction>(transactions);
+
+            for (int i = 0; i < sortedTransactions.size() - 1; i++) {
+                // Inner loop compares adjacent items
+                for (int j = 0; j < sortedTransactions.size() - i - 1; j++) {
+                    // isBefore() checks if the first date is before the second date
+                    // If it is, we swap them so newer dates come first
+                    if (sortedTransactions.get(j).getDate().isBefore(sortedTransactions.get(j + 1).getDate())) {
+                        // Swapping - save one transaction temporarily
+                        Transaction temp = sortedTransactions.get(j);
+                        // Move the second transaction to the first position
+                        sortedTransactions.set(j, sortedTransactions.get(j + 1));
+                        // Put the saved transaction in the second position
+                        sortedTransactions.set(j + 1, temp);
+                    }
+                }
+            }
+
+            // Enhanced for loop (for-each) goes through each transaction
+            for (Transaction transaction : sortedTransactions) {
+                // Display each transaction in formatted columns
+                System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\\n");
     }
+
     
 }
