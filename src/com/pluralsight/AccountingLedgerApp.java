@@ -223,7 +223,48 @@ public class AccountingLedgerApp {
                 System.out.println("ERROR: Could not load transaction!");
             }
         }
+
+        // This method shows the ledger menu, and then passes it to the scanner.
+        public static void legerScreen(Scanner scanner) {
+            while (true) {
+                System.out.println("\n┌────────────────────────────────────────┐");
+                System.out.println("│           LEDGER                       │");
+                System.out.println("├────────────────────────────────────────┤");
+                System.out.println("│  A) All Entries                        │");
+                System.out.println("│  D) Deposits                           │");
+                System.out.println("│  P) Payments                           │");
+                System.out.println("│  R) Reports                            │");
+                System.out.println("│  H) Home                               │");
+                System.out.println("└────────────────────────────────────────┘");
+                System.out.print("Enter your choice: ");
+
+                String choice = scanner.nextLine().toUpperCase();
+                switch (choice) {
+                    case "A":
+                        // shows all the transactions
+                        displayALLEntries();
+                        break;
+                    case "D":
+                        // show only deposits
+                        displayDeposits();
+                        break;
+                    case "P":
+                        //show only payments
+                        displayPayments();
+                    case "R":
+                        // go to the reports menu and pass the scanner
+                        reportScreen(scanner);
+                        break;
+                    case "H":
+                        // Return to home screen
+                        return;
+                    default:
+                        System.out.println("invalid choice. Please try again.");
+                }
+            }
+        }
         
+
     }
     
 }
