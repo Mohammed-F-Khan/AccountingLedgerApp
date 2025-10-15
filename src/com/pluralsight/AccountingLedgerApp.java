@@ -74,10 +74,10 @@ public class AccountingLedgerApp {
                     break; //exit the switch statement
                 case "X":
                     // if user chose X, show goodbye message and exit
-                    System.out.println("\n╔════════════════════════════════════════════╗");
-                    System.out.println("║  Thank you for using Accounting Ledger!   ║");
-                    System.out.println("║  Your data has been saved.                ║");
-                    System.out.println("╚════════════════════════════════════════════╝");
+                    System.out.println("  ╔════════════════════════════════════════════╗");
+                    System.out.println("  ║  Thank you for using Accounting Ledger!    ║");
+                    System.out.println("  ║  Your data has been saved.                 ║");
+                    System.out.println("  ╚════════════════════════════════════════════╝");
                     return;  // this exits the method and ends the program.
                 default:
                     // if user types something else, show error message
@@ -231,15 +231,15 @@ public class AccountingLedgerApp {
     // This method shows the ledger menu, and then passes it to the scanner.
     public static void ledgerScreen(Scanner scanner) {
         while (true) {
-            System.out.println("\n┌────────────────────────────────────────┐");
-            System.out.println("│           LEDGER                       │");
-            System.out.println("├────────────────────────────────────────┤");
-            System.out.println("│  A) All Entries                        │");
-            System.out.println("│  D) Deposits                           │");
-            System.out.println("│  P) Payments                           │");
-            System.out.println("│  R) Reports                            │");
-            System.out.println("│  H) Home                               │");
-            System.out.println("└────────────────────────────────────────┘");
+            System.out.println("  ┌────────────────────────────────────────┐ ");
+            System.out.println("  │           LEDGER                       │");
+            System.out.println("  ├────────────────────────────────────────┤");
+            System.out.println("  │  A) All Entries                        │");
+            System.out.println("  │  D) Deposits                           │");
+            System.out.println("  │  P) Payments                           │");
+            System.out.println("  │  R) Reports                            │");
+            System.out.println("  │  H) Home                               │");
+            System.out.println("  └────────────────────────────────────────┘");
             System.out.print("Enter your choice: ");
 
             String choice = scanner.nextLine().toUpperCase();
@@ -392,5 +392,55 @@ public class AccountingLedgerApp {
                     transaction.getAmount());
         }
         System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+    }
+
+    // This method shows the reports menu
+    public static void reportsScreen(Scanner scanner) {
+        while (true) {
+            System.out.println("  ┌────────────────────────────────────────┐");
+            System.out.println("  │           REPORTS                      │");
+            System.out.println("  ├────────────────────────────────────────┤");
+            System.out.println("  │  1) Month To Date                      │");
+            System.out.println("  │  2) Previous Month                     │");
+            System.out.println("  │  3) Year To Date                       │");
+            System.out.println("  │  4) Previous Year                      │");
+            System.out.println("  │  5) Search by Vendor                   │");
+            System.out.println("  │  6) Custom Search                      │");
+            System.out.println("  │  0) Back                               │");
+            System.out.println("  └────────────────────────────────────────┘");
+            System.out.print("Enter your choice: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    monthToDateReport();
+                    break;
+                case "2":
+                    previousMonthReport();
+                    break;
+                case "3":
+                    yearToDateReport();
+                    break;
+                case "4":
+                    previousYearReport();
+                    break;
+                case "5":
+                    // Passes the scanner to searchByVendor
+                    searchByVendor(scanner);
+                    break;
+                case "6":
+                    // Passes the scanner to customSearch
+                    customSearch(scanner);
+                    break;
+                case "0":
+                    // Goes back to ledger screen
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+    
     }
 }
