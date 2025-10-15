@@ -441,6 +441,37 @@ public class AccountingLedgerApp {
             }
         }
     }
-    
+
+    // This method shows all transactions from the start of this month until today
+    public static void monthToDateReport() {
+        // Gets todays date
+        LocalDate today = LocalDate.now();
+        // calculate the first of current month, For example, if today is October 14, this creates October 1
+        LocalDate startOfMonth = LocalDate.of(today.getYear(), today.getMonthValue(), 1);
+
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+        System.out.println("                          MONTH TO DATE REPORT");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════");
+        System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        // Loops through all transactions
+        for (Transaction transaction : transactions) {
+            // Check if the transaction date is within our range
+            // isEqual() checks if dates are exactly the same
+            // isAfter() checks if first date is after the second
+            // isBefore() checks if first date is before the second
+            if ((transaction.getDate().isEqual(startOfMonth) || transaction.getDate().isAfter(startOfMonth)) &&
+                    (transaction.getDate().isEqual(today) || transaction.getDate().isBefore(today))) {
+                // This If it's in a range, it displays it.
+                System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+            }
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
     }
 }
