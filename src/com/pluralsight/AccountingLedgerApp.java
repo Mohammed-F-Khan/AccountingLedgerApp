@@ -474,4 +474,45 @@ public class AccountingLedgerApp {
         }
         System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
     }
+
+    // This method shows all transactions from the last month
+    public static void previousMonthReport() {
+        LocalDate today = LocalDate.now();
+
+        // Calculates which month was last month
+        int previousMonth = today.getMonthValue() - 1;
+        int year = today.getYear();
+
+        //  only for Special cases: if current month is January 1, then the previous month will be December 12 of last year
+        if (previousMonth == 0) {
+            previousMonth = 12;
+            year = year - 1;
+        }
+
+        // Gets the first day of the previous month
+        LocalDate startOfPreviousMonth = LocalDate.of(year, previousMonth, 1);
+        // Gets the last day of the previous month and plusMonths(1) adds one month, minusDays(1) subtracts one day
+        LocalDate endOfPreviousMonth = startOfPreviousMonth.plusMonths(1).minusDays(1);
+
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+        System.out.println("                          PREVIOUS MONTH REPORT");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════");
+        System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        // this loop Displays transactions that fall within the previous month
+        for (Transaction transaction : transactions) {
+            if ((transaction.getDate().isEqual(startOfPreviousMonth) || transaction.getDate().isAfter(startOfPreviousMonth)) &&
+                    (transaction.getDate().isEqual(endOfPreviousMonth) || transaction.getDate().isBefore(endOfPreviousMonth))) {
+                System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+            }
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+    }
+
 }
