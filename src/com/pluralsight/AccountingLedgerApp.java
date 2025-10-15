@@ -1,9 +1,7 @@
 package com.pluralsight;
 
 import javax.imageio.IIOException;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -20,6 +18,9 @@ public class AccountingLedgerApp {
 
         // first shows welcome screen
         displayWelcomeScreen();
+
+        // Loads existing transactions from the CSV file
+        loadTransactions();
 
         // scanner to get user input
         Scanner scanner = new Scanner(System.in);
@@ -190,6 +191,39 @@ public class AccountingLedgerApp {
             System.out.println("ERROR: Could not save transaction!");
             e.printStackTrace(); // prints detailed error information
         }
+    }
+
+    // This method reads all transactions from the CSV file when the program starts
+    public static void loadTransactions() {
+        try {
+            //opens the file for reading
+            FileReader fileReader = new FileReader("transactions.csv");
+            // reads the line, line by line
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            // it reads line by line, and returns null if no more lines are there
+            while (line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+
+                //parse each part into the correct data type
+                LocalDate date = LocalDate.parse(parts[0]); // first part is the date
+                LocalTime time = LocalTime.parse(parts[1]); // second part is time
+                String description = parts[2];              // third part is description
+                String vendor = parts[3];                   // fourth part is vendor
+                double amount = Double.parseDouble(parts[4]); // fifth part is amount
+
+                Transaction transaction = new Transaction(date, time, description, vendor, amount);
+
+                // add it to our ArrrayList
+                transactions.add(transaction);
+                //close the reader
+                bufferedReader.close();
+            } catch (IOException e) {
+                System.out.println("ERROR: Could not load transaction!");
+            }
+        }
+        
     }
     
 }
