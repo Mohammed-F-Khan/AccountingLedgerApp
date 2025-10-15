@@ -1,6 +1,5 @@
 package com.pluralsight;
 
-import javax.imageio.IIOException;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,7 +23,11 @@ public class AccountingLedgerApp {
 
         // scanner to get user input
         Scanner scanner = new Scanner(System.in);
+
+        // Show the home screen menu and pass the scanner to it
+        homeScreen(scanner);
     }
+
     // this method shows the welcome screen
     // Box Drawings found oun w3schools.com - https://www.w3schools.com/charsets/ref_utf_box.asp
     public static void displayWelcomeScreen() {
@@ -72,9 +75,9 @@ public class AccountingLedgerApp {
                 case "X":
                     // if user chose X, show goodbye message and exit
                     System.out.println("\n╔════════════════════════════════════════════╗");
-                    System.out.println("║  Thank you for using Accounting Ledger!      ║");
-                    System.out.println("║  Your data has been saved.                   ║");
-                    System.out.println("╚══════════════════════════════════════════════╝");
+                    System.out.println("║  Thank you for using Accounting Ledger!   ║");
+                    System.out.println("║  Your data has been saved.                ║");
+                    System.out.println("╚════════════════════════════════════════════╝");
                     return;  // this exits the method and ends the program.
                 default:
                     // if user types something else, show error message
@@ -101,7 +104,7 @@ public class AccountingLedgerApp {
         LocalTime time = LocalTime.parse(timeInput);
 
         // Get the description of what this deposit is for.
-        System.out.print("Enter description:");
+        System.out.print("Enter description: ");
         String description = scanner.nextLine();
 
         // get the vendor name who gave the money
@@ -203,7 +206,7 @@ public class AccountingLedgerApp {
 
             String line;
             // it reads line by line, and returns null if no more lines are there
-            while (line = bufferedReader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 String[] parts = line.split("\\|");
 
                 //parse each part into the correct data type
@@ -217,95 +220,177 @@ public class AccountingLedgerApp {
 
                 // add it to our ArrrayList
                 transactions.add(transaction);
-                //close the reader
-                bufferedReader.close();
-            } catch (IOException e) {
-                System.out.println("ERROR: Could not load transaction!");
             }
+            //close the reader
+            bufferedReader.close();
+        } catch (IOException e) {
+            System.out.println("No existing transactions file found. Starting fresh.");
         }
-
-        // This method shows the ledger menu, and then passes it to the scanner.
-        public static void legerScreen(Scanner scanner) {
-            while (true) {
-                System.out.println("\n┌────────────────────────────────────────┐");
-                System.out.println("│           LEDGER                       │");
-                System.out.println("├────────────────────────────────────────┤");
-                System.out.println("│  A) All Entries                        │");
-                System.out.println("│  D) Deposits                           │");
-                System.out.println("│  P) Payments                           │");
-                System.out.println("│  R) Reports                            │");
-                System.out.println("│  H) Home                               │");
-                System.out.println("└────────────────────────────────────────┘");
-                System.out.print("Enter your choice: ");
-
-                String choice = scanner.nextLine().toUpperCase();
-                switch (choice) {
-                    case "A":
-                        // shows all the transactions
-                        displayALLEntries();
-                        break;
-                    case "D":
-                        // show only deposits
-                        displayDeposits();
-                        break;
-                    case "P":
-                        //show only payments
-                        displayPayments();
-                    case "R":
-                        // go to the reports menu and pass the scanner
-                        reportScreen(scanner);
-                        break;
-                    case "H":
-                        // Return to home screen
-                        return;
-                    default:
-                        System.out.println("invalid choice. Please try again.");
-                }
-            }
-        }
-
-        // this method display all transactions sorted by date (newest first)
-        public static void displayAllEntries() {
-            System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
-            System.out.println("                                 ALL ENTRIES");
-            System.out.println("  ═══════════════════════════════════════════════════════════════════════════════");
-
-            //print f formats the output in colums
-            // %-12 means left alligned string with 12 characters width and %10 means right aligned with 10 char width
-            System.out.printf("%-12s %-10s %-25s %-20s %10s\\n\", \"Date\", \"Time\", \"Description\", \"Vendor\", \"Amount");
-            System.out.println("-------------------------------------------------------------------------------");
-
-            // this creats a copy of the transaction list so the orignal isn't lost
-            ArrayList<Transaction> sortedTransactions = new ArrayList<Transaction>(transactions);
-
-            for (int i = 0; i < sortedTransactions.size() - 1; i++) {
-                // Inner loop compares adjacent items
-                for (int j = 0; j < sortedTransactions.size() - i - 1; j++) {
-                    // isBefore() checks if the first date is before the second date
-                    // If it is, we swap them so newer dates come first
-                    if (sortedTransactions.get(j).getDate().isBefore(sortedTransactions.get(j + 1).getDate())) {
-                        // Swapping - save one transaction temporarily
-                        Transaction temp = sortedTransactions.get(j);
-                        // Move the second transaction to the first position
-                        sortedTransactions.set(j, sortedTransactions.get(j + 1));
-                        // Put the saved transaction in the second position
-                        sortedTransactions.set(j + 1, temp);
-                    }
-                }
-            }
-
-            // Enhanced for loop (for-each) goes through each transaction
-            for (Transaction transaction : sortedTransactions) {
-                // Display each transaction in formatted columns
-                System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
-                        transaction.getDate(),
-                        transaction.getTime(),
-                        transaction.getDescription(),
-                        transaction.getVendor(),
-                        transaction.getAmount());
-        }
-        System.out.println("═══════════════════════════════════════════════════════════════════════════════\\n");
     }
 
-    
+    // This method shows the ledger menu, and then passes it to the scanner.
+    public static void ledgerScreen(Scanner scanner) {
+        while (true) {
+            System.out.println("\n┌────────────────────────────────────────┐");
+            System.out.println("│           LEDGER                       │");
+            System.out.println("├────────────────────────────────────────┤");
+            System.out.println("│  A) All Entries                        │");
+            System.out.println("│  D) Deposits                           │");
+            System.out.println("│  P) Payments                           │");
+            System.out.println("│  R) Reports                            │");
+            System.out.println("│  H) Home                               │");
+            System.out.println("└────────────────────────────────────────┘");
+            System.out.print("Enter your choice: ");
+
+            String choice = scanner.nextLine().toUpperCase();
+            switch (choice) {
+                case "A":
+                    // shows all the transactions
+                    displayAllEntries();
+                    break;
+                case "D":
+                    // show only deposits
+                    displayDeposits();
+                    break;
+                case "P":
+                    //show only payments
+                    displayPayments();
+                    break;
+                case "R":
+                    // go to the reports menu and pass the scanner
+                    reportsScreen(scanner);
+                    break;
+                case "H":
+                    // Return to home screen
+                    return;
+                default:
+                    System.out.println("invalid choice. Please try again.");
+            }
+        }
+    }
+
+    // this method display all transactions sorted by date (newest first)
+    public static void displayAllEntries() {
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+        System.out.println("                                 ALL ENTRIES");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════");
+
+        //print f formats the output in colums
+        // %-12 means left alligned string with 12 characters width and %10 means right aligned with 10 char width
+        System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        // this creats a copy of the transaction list so the orignal isn't lost
+        ArrayList<Transaction> sortedTransactions = new ArrayList<Transaction>(transactions);
+
+        for (int i = 0; i < sortedTransactions.size() - 1; i++) {
+            // Inner loop compares adjacent items
+            for (int j = 0; j < sortedTransactions.size() - i - 1; j++) {
+                // isBefore() checks if the first date is before the second date
+                // If it is, we swap them so newer dates come first
+                if (sortedTransactions.get(j).getDate().isBefore(sortedTransactions.get(j + 1).getDate())) {
+                    // Swapping - save one transaction temporarily
+                    Transaction temp = sortedTransactions.get(j);
+                    // Move the second transaction to the first position
+                    sortedTransactions.set(j, sortedTransactions.get(j + 1));
+                    // Put the saved transaction in the second position
+                    sortedTransactions.set(j + 1, temp);
+                }
+            }
+        }
+
+        // Enhanced for loop (for-each) goes through each transaction
+        for (Transaction transaction : sortedTransactions) {
+            // Display each transaction in formatted columns
+            System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                    transaction.getDate(),
+                    transaction.getTime(),
+                    transaction.getDescription(),
+                    transaction.getVendor(),
+                    transaction.getAmount());
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+    }
+    // This method displays only deposits
+    public static void displayDeposits() {
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+        System.out.println("                              DEPOSITS ONLY");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════");
+        System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        // this new list only holds deposits
+        ArrayList<Transaction> deposits = new ArrayList<Transaction>();
+
+        // Filter: this like a filter that loops through all transactions and only adds the positive ones
+        for (Transaction transaction : transactions) {
+            // If amount is greater than 0, it's a deposit
+            if (transaction.getAmount() > 0) {
+                deposits.add(transaction);
+            }
+        }
+        // Sorts the deposits by date (newest first) using bubble sort
+        for (int i = 0; i < deposits.size() - 1; i++) {
+            for (int j = 0; j < deposits.size() - i - 1; j++) {
+                if (deposits.get(j).getDate().isBefore(deposits.get(j + 1).getDate())) {
+                    Transaction temp = deposits.get(j);
+                    deposits.set(j, deposits.get(j + 1));
+                    deposits.set(j + 1, temp);
+                }
+            }
+        }
+
+        // Displays each deposit
+        for (Transaction transaction : deposits) {
+            System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                    transaction.getDate(),
+                    transaction.getTime(),
+                    transaction.getDescription(),
+                    transaction.getVendor(),
+                    transaction.getAmount());
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+    }
+
+    // This method displays only payments (negative amounts)
+    public static void displayPayments() {
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+        System.out.println("                              PAYMENTS ONLY");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════");
+        System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        // a new list that holds only payments
+        ArrayList<Transaction> payments = new ArrayList<Transaction>();
+
+        // Filter: another filter that loops through all transactions and only adds the negative ones
+        for (Transaction transaction : transactions) {
+            // If amount is less than 0, it's a payment
+            if (transaction.getAmount() < 0) {
+                payments.add(transaction);
+            }
+        }
+
+        // Sorts the payments by date (newest first) using bubble sort
+        for (int i = 0; i < payments.size() - 1; i++) {
+            for (int j = 0; j < payments.size() - i - 1; j++) {
+                if (payments.get(j).getDate().isBefore(payments.get(j + 1).getDate())) {
+                    Transaction temp = payments.get(j);
+                    payments.set(j, payments.get(j + 1));
+                    payments.set(j + 1, temp);
+                }
+            }
+        }
+
+        // Displays each payment
+        for (Transaction transaction : payments) {
+            System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                    transaction.getDate(),
+                    transaction.getTime(),
+                    transaction.getDescription(),
+                    transaction.getVendor(),
+                    transaction.getAmount());
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+    }
 }
