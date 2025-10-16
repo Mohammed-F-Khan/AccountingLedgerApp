@@ -540,5 +540,37 @@ public class AccountingLedgerApp {
             }
         }
         System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+    }
 
+    // This method shows all transactions from last year (January 1 to December 31)
+    public static void previousYearReport() {
+        LocalDate today = LocalDate.now();
+        // Calculates what year was last year
+        int previousYear = today.getYear() - 1;
+
+        // Creates January 1 of last year
+        LocalDate startOfPreviousYear = LocalDate.of(previousYear, 1, 1);
+        // Creates December 31 of last year
+        LocalDate endOfPreviousYear = LocalDate.of(previousYear, 12, 31);
+
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+        System.out.println("                          PREVIOUS YEAR REPORT");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════");
+        System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        // Displays transactions from last year
+        for (Transaction transaction : transactions) {
+            if ((transaction.getDate().isEqual(startOfPreviousYear) || transaction.getDate().isAfter(startOfPreviousYear)) &&
+                    (transaction.getDate().isEqual(endOfPreviousYear) || transaction.getDate().isBefore(endOfPreviousYear))) {
+                System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+            }
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+    }
 }
