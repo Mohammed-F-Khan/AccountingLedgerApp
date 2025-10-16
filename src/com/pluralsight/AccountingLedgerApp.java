@@ -515,4 +515,30 @@ public class AccountingLedgerApp {
         System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
     }
 
+    // This method shows all transactions from January 1 of this year until today
+    public static void yearToDateReport() {
+        LocalDate today = LocalDate.now();
+        // Creates January 1st of the current year
+        LocalDate startOfYear = LocalDate.of(today.getYear(), 1, 1);
+
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+        System.out.println("                          YEAR TO DATE REPORT");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════");
+        System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        // this displays all transactions from the start of this year to today
+        for (Transaction transaction : transactions) {
+            if ((transaction.getDate().isEqual(startOfYear) || transaction.getDate().isAfter(startOfYear)) &&
+                    (transaction.getDate().isEqual(today) || transaction.getDate().isBefore(today))) {
+                System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+            }
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+
 }
