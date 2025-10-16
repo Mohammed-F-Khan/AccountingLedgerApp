@@ -427,11 +427,11 @@ public class AccountingLedgerApp {
                     break;
                 case "5":
                     // Passes the scanner to searchByVendor
-//                    searchByVendor(scanner);
+                    searchByVendor(scanner);
                     break;
                 case "6":
                     // Passes the scanner to customSearch
-//                    customSearch(scanner);
+                   customSearch(scanner);
                     break;
                 case "0":
                     // Goes back to ledger screen
@@ -607,6 +607,118 @@ public class AccountingLedgerApp {
         // If there was no matches found, it lets the user know
         if (matchCount == 0) {
             System.out.println("No transactions found for vendor: " + vendorName);
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+    }
+    // This method allows searching with multiple filters at once
+    // the is User is able to leave any field blank to skip that filter
+    public static void customSearch(Scanner scanner) {
+        System.out.println("\n═══ CUSTOM SEARCH ═══");
+        System.out.println("(Leave blank to skip a search criterion)");
+
+        // Ask for start date (optional)
+        System.out.print("Enter start date (yyyy-MM-dd): ");
+        String startDateInput = scanner.nextLine();
+        LocalDate startDate = null;  // null means "no value"
+        // Only parse the date if the user actually entered something
+        if (!startDateInput.trim().equals("")) {
+            startDate = LocalDate.parse(startDateInput);
+        }
+
+        // Ask for end date (optional)
+        System.out.print("Enter end date (yyyy-MM-dd): ");
+        String endDateInput = scanner.nextLine();
+        LocalDate endDate = null;
+        if (!endDateInput.trim().equals("")) {
+            endDate = LocalDate.parse(endDateInput);
+        }
+
+        // Ask for description (optional)
+        System.out.print("Enter description: ");
+        String description = scanner.nextLine();
+
+        // Ask for vendor (optional)
+        System.out.print("Enter vendor: ");
+        String vendor = scanner.nextLine();
+
+        // Ask for amount (optional)
+        System.out.print("Enter amount: ");
+        String amountInput = scanner.nextLine();
+        Double amount = null;  // Double (capital D) means it can be null, double (lowercase) cannot be!!!
+        if (!amountInput.trim().equals("")) {
+            amount = Double.parseDouble(amountInput);
+        }
+
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+        System.out.println("                          CUSTOM SEARCH RESULTS");
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════");
+        System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        // Counter for how many matches are found
+        int matchCount = 0;
+
+        // Checks each transaction to see if it matches ALL the filters
+        for (Transaction transaction : transactions) {
+            // Boolean variable to track if this transaction matches
+            // it just Starts by assuming it matches, until its proven wrong.
+            boolean matches = true;
+
+            // Check start date filter (only if user entered one)
+            if (startDate != null) {
+                // If transaction date is before the start date, it doesn't match
+                if (transaction.getDate().isBefore(startDate)) {
+                    matches = false;
+                }
+            }
+
+            // Checks end date filter (only if user entered one)
+            if (endDate != null) {
+                // If transaction date is after the end date, it doesn't match
+                if (transaction.getDate().isAfter(endDate)) {
+                    matches = false;
+                }
+            }
+
+            // Check description filter (only if user entered something)
+            if (!description.trim().equals("")) {
+                // toLowerCase() makes the comparison case-insensitive
+                // contains() checks if one string is inside another
+                if (!transaction.getDescription().toLowerCase().contains(description.toLowerCase())) {
+                    matches = false;
+                }
+            }
+
+            // Check vendor filter (only if user entered something)
+            if (!vendor.trim().equals("")) {
+                if (!transaction.getVendor().toLowerCase().contains(vendor.toLowerCase())) {
+                    matches = false;
+                }
+            }
+
+            // Check amount filter (only if user entered one)
+            if (amount != null) {
+                // this means it != checks if two numbers are not equal
+                if (transaction.getAmount() != amount) {
+                    matches = false;
+                }
+            }
+
+            // If all matches is still true, this transaction passed all the filters
+            if (matches) {
+                System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+                matchCount++;
+            }
+        }
+
+        // If no transactions matched,this message prints out tells the user
+        if (matchCount == 0) {
+            System.out.println("No transactions found matching your search criteria.");
         }
         System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
     }
