@@ -39,47 +39,58 @@ This is where it gets more useful. You can:
 ## Screenshots
 
 ### Home Screen
-![Home Screen](screenshots/home-screen.png)
+<img width="605" height="478" alt="Screenshot 2025-10-16 145946" src="https://github.com/user-attachments/assets/db9a91bd-6b24-4e3e-9965-a779c3849980" />
+
 *The welcome screen and main menu*
 
 ### Adding a Deposit
-![Add Deposit](screenshots/add-deposit.png)
+<img width="431" height="482" alt="Screenshot 2025-10-16 150106" src="https://github.com/user-attachments/assets/896e9ecd-ceb8-49dd-aaf7-46cc2ec5d5fd" />
+
 *Adding a $1000 paycheck from CVS*
 
 ### Ledger Menu
-![Ledger Menu](screenshots/ledger-menu.png)
+<img width="516" height="290" alt="Screenshot 2025-10-16 150149" src="https://github.com/user-attachments/assets/9a9e358a-dc6d-4f77-a5cd-90ec0989008b" />
+
 *The ledger screen with all viewing options*
 
 ### All Entries View
-![All Entries](screenshots/all-entries.png)
+<img width="841" height="833" alt="Screenshot 2025-10-16 150228" src="https://github.com/user-attachments/assets/54df95b3-eade-44c8-9d31-3bffcffad229" />
+
 *Complete transaction history sorted by date*
 
 ### Deposits Only
-![Deposits](screenshots/deposits-only.png)
+<img width="831" height="667" alt="Screenshot 2025-10-16 150253" src="https://github.com/user-attachments/assets/1fd06b63-5281-4014-b9ae-f60ea922dec6" />
+
 *Filtering to show only money coming in*
 
 ### Payments Only
-![Payments](screenshots/payments-only.png)
+<img width="852" height="636" alt="Screenshot 2025-10-16 150312" src="https://github.com/user-attachments/assets/6a2c42ec-e458-44ee-9a4c-6ddbdb759174" />
+
 *Filtering to show only money going out*
 
 ### Reports Menu
-![Reports Menu](screenshots/reports-menu.png)
+<img width="508" height="366" alt="Screenshot 2025-10-16 150330" src="https://github.com/user-attachments/assets/13782222-15fc-4b29-96b7-22a0de14fe4f" />
+
 *All the different report options available*
 
 ### Month To Date Report
-![Month To Date](screenshots/month-to-date.png)
+<img width="842" height="593" alt="Screenshot 2025-10-16 150401" src="https://github.com/user-attachments/assets/fe34a999-9cb9-4575-a987-08dab2a06959" />
+
 *Transactions from October 1st to today (October 16th)*
 
 ### Search by Vendor
-![Search Vendor](screenshots/search-vendor.png)
+<img width="821" height="611" alt="Screenshot 2025-10-16 150430" src="https://github.com/user-attachments/assets/aec8f87c-e114-4f9b-a9ac-f6cebebffc36" />
+
 *Searching for "Walamrt" - shows no results found message*
 
 ### Custom Search
-![Custom Search](screenshots/custom-search.png)
+<img width="427" height="220" alt="Screenshot 2025-10-16 150510" src="https://github.com/user-attachments/assets/028012d2-ae88-489d-8ba9-618e0243db76" />
+
 *The custom search prompts - can filter by multiple criteria*
 
 ### Exit Message
-![Exit](screenshots/exit-message.png)
+<img width="491" height="123" alt="Screenshot 2025-10-16 150531" src="https://github.com/user-attachments/assets/bb7012ba-a05a-4356-b99a-5c959f584934" />
+
 *Goodbye message when exiting the application*
 
 ---
