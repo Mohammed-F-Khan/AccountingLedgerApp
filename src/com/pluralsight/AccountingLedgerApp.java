@@ -427,11 +427,11 @@ public class AccountingLedgerApp {
                     break;
                 case "5":
                     // Passes the scanner to searchByVendor
-                    searchByVendor(scanner);
+//                    searchByVendor(scanner);
                     break;
                 case "6":
                     // Passes the scanner to customSearch
-                    customSearch(scanner);
+//                    customSearch(scanner);
                     break;
                 case "0":
                     // Goes back to ledger screen
@@ -570,6 +570,43 @@ public class AccountingLedgerApp {
                         transaction.getVendor(),
                         transaction.getAmount());
             }
+        }
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
+    }
+
+    // This method searches for all transactions from a specific vendor
+    public static void searchByVendor(Scanner scanner) {
+        // Ask the user which vendor they want to search for
+        System.out.print("\nEnter vendor name: ");
+        String vendorName = scanner.nextLine();
+
+        System.out.println("\n═══════════════════════════════════════════════════════════════════════════════");
+        System.out.println("                        SEARCH RESULTS FOR: " + vendorName);
+        System.out.println("═══════════════════════════════════════════════════════════════════════════════");
+        System.out.printf("%-12s %-10s %-25s %-20s %10s\n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------");
+
+        // this Keeps track of how many matches we find
+        int matchCount = 0;
+
+        // Loops through all transactions looking for matches
+        for (Transaction transaction : transactions) {
+            // equalsIgnoreCase compares strings without caring about UPPER/lower case
+            if (transaction.getVendor().equalsIgnoreCase(vendorName)) {
+                // Found a match! Display it
+                System.out.printf("%-12s %-10s %-25s %-20s %10.2f\n",
+                        transaction.getDate(),
+                        transaction.getTime(),
+                        transaction.getDescription(),
+                        transaction.getVendor(),
+                        transaction.getAmount());
+                matchCount++;  // add to the counter the counter
+            }
+        }
+
+        // If there was no matches found, it lets the user know
+        if (matchCount == 0) {
+            System.out.println("No transactions found for vendor: " + vendorName);
         }
         System.out.println("═══════════════════════════════════════════════════════════════════════════════\n");
     }
